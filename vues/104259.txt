@@ -1,0 +1,61 @@
+#DEBUT TROLLS
+109168;-64;-26;-58
+41959;-64;-26;-57
+88222;-63;-20;-57
+95636;-63;-20;-57
+105627;-67;-25;-57
+108942;-64;-26;-57
+109164;-64;-26;-57
+109376;-64;-26;-57
+110196;-66;-26;-57
+109910;-64;-26;-57
+109904;-66;-27;-57
+110169;-64;-26;-57
+110229;-64;-26;-57
+86133;-64;-22;-56
+90982;-64;-22;-56
+104259;-64;-22;-56
+105395;-64;-22;-56
+#FIN TROLLS
+#DEBUT MONSTRES
+5762672;Gowap Apprivoisé [Chef de harde];-64;-22;-59
+5226942;Gowap Apprivoisé [Ancêtre];-64;-21;-59
+947506;Gowap Apprivoisé [Ancien] ZimZwap;-59;-20;-59
+2036207;Gowap Apprivoisé [Ancêtre] Zébulon;-63;-22;-58
+5869286;Shai [Initial];-67;-25;-57
+1408713;Gowap Apprivoisé [Ancêtre] Farouche;-66;-26;-57
+1729280;Gowap Apprivoisé [Ancien]    Chaussette;-66;-26;-57
+5020368;Gowap Apprivoisé [Ancêtre] Chamalow;-66;-26;-57
+5680063;Gowap Apprivoisé [Ancien];-66;-26;-57
+5867674;Palefroi Infernal [Initial];-63;-22;-57
+447982;Gowap Apprivoisé [Ancêtre] Grâham du Troupal de Sprad;-66;-27;-56
+5020445;Gowap Apprivoisé [Ancien] Jolly Jumper;-65;-26;-56
+5842361;Familier [Adulte];-64;-20;-56
+451677;Gowap Apprivoisé [Ancêtre];-68;-27;-53
+#FIN MONSTRES
+#DEBUT TRESORS
+12470020;Gigots de Gob;-66;-26;-57
+12470021;Casque;-66;-26;-57
+12368176;Arme (2 mains);-59;-26;-58
+12368564;Armure;-59;-25;-58
+12469139;Gigots de Gob;-64;-22;-56
+12469143;Outils;-64;-22;-56
+12469346;Potion;-64;-22;-56
+12469258;Arme (2 mains);-64;-21;-56
+12469256;Parchemin;-64;-21;-56
+12469255;Gigots de Gob;-64;-21;-56
+12469257;Outils;-64;-21;-56
+12469142;Armure;-64;-21;-56
+12251635;Arme (2 mains);-66;-20;-57
+#FIN TRESORS
+#DEBUT LIEUX
+11739;Sortie de Portail;-66;-26;-57
+3008214;Portail de Téléportation;-64;-26;-57
+3008370;Portail de Téléportation;-64;-22;-56
+12074;Sortie de Portail;-64;-21;-56
+#FIN LIEUX
+#DEBUT CHAMPIGNONS
+#FIN CHAMPIGNONS
+#DEBUT ORIGINE
+5;-64;-22;-56
+#FIN ORIGINE

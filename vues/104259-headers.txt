@@ -1,0 +1,41 @@
+http://sp.mountyhall.com/SP_Vue2.php?Numero=104259&Motdepasse=XXXXXXXX&Tresors=1&Lieux=1&Champignons=1
+
+Connection:keep-alive
+Content-Encoding:gzip
+Content-Length:370
+Content-Type:text/plain;charset=ISO-8859-1
+Date:Tue, 30 May 2017 13:39:44 GMT
+Server:nginx/1.2.1
+Vary:Accept-Encoding
+X-Powered-By:PHP/5.4.45-0+deb7u8
+
+#DEBUT TROLLS
+22045;-57;-13;-63
+88222;-56;-15;-63
+86133;-56;-15;-63
+95636;-56;-15;-63
+100160;-56;-15;-63
+105395;-56;-15;-63
+104259;-59;-18;-60
+#FIN TROLLS
+#DEBUT MONSTRES
+947506;Gowap Apprivoisé [Ancien] ZimZwap;-55;-16;-63
+5762672;Gowap Apprivoisé [Chef de harde];-56;-15;-62
+4783739;Gowap Apprivoisé [Ancien] Poch'a'vin;-56;-13;-62
+5842361;Familier [Adulte];-55;-16;-62
+#FIN MONSTRES
+#DEBUT TRESORS
+12465255;Arme (2 mains);-60;-20;-63
+12465256;Armure;-60;-20;-63
+12465254;Gigots de Gob;-60;-20;-63
+12465257;Bottes;-60;-20;-63
+#FIN TRESORS
+#DEBUT LIEUX
+3007929;Portail de Téléportation;-56;-15;-63
+#FIN LIEUX
+#DEBUT CHAMPIGNONS
+#FIN CHAMPIGNONS
+#DEBUT ORIGINE
+5;-59;-18;-60
+#FIN ORIGINE
+

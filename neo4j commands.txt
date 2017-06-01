@@ -1,0 +1,4 @@
+Suppression de toute la base
+
+MATCH (n) DETACH DELETE n
+
