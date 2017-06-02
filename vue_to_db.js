@@ -45,9 +45,9 @@ let pushViewToDb = function(trollId) {
                 let date = Date.now();
                 tx.run(
                     'MERGE (t:Troll {id: $id})' +
-                    ' ON CREATE SET t+= {name:$name, date:timestamp(), posX: $pos.x, posY: $pos.y, posN: $pos.n} ' +
-                    ' ON MATCH  SET t+= {name:$name, date:timestamp(), posX: $pos.x, posY: $pos.y, posN: $pos.n} ',
-                    {id: trollId, name: '' + trollId, pos: json.origine.pos, date: date});
+                    ' ON CREATE SET t+= {date:timestamp(), posX: $pos.x, posY: $pos.y, posN: $pos.n} ' +
+                    ' ON MATCH  SET t+= {date:timestamp(), posX: $pos.x, posY: $pos.y, posN: $pos.n} ',
+                    {id: trollId, pos: json.origine.pos, date: date});
 
                 console.log(`Insertion de ${json.monstres.length} monstres ...`);
                 for (let monstre of json.monstres) {
@@ -97,7 +97,6 @@ let pushViewToDb = function(trollId) {
                 for (let troll of json.trolls) {
 
                     let propsSet = "{ " +
-                        "name: $id, " +
                         "posX: $pos.x, " +
                         "posY: $pos.y, " +
                         "posN: $pos.n " +
@@ -108,21 +107,25 @@ let pushViewToDb = function(trollId) {
                         ' ON MATCH  SET m+= ' + propsSet,
                         troll);
 
-                    let d = computeDistance(json.origine.pos, troll.pos);
+                    let estVuId = '' + troll.id;
+                    if (estVuId !== trollId) {
 
-                    tx.run('MATCH (voit:Troll {id: $voitId}), (estVu:Troll {id: $estVuId}) ' +
-                        'MERGE (voit)-[r:VOIT]->(estVu) ' +
-                        ' ON CREATE SET r+= {quand: $date, posX: $posX, posY: $posY, posN: $posN, distance: $distance}' +
-                        ' ON MATCH  SET r+= {quand: $date, posX: $posX, posY: $posY, posN: $posN, distance: $distance}',
-                        {
-                            estVuId: troll.id,
-                            voitId: trollId,
-                            date: date,
-                            posX: troll.pos.x,
-                            posY: troll.pos.y,
-                            posN: troll.pos.n,
-                            distance: d.distance
-                        });
+                        let d = computeDistance(json.origine.pos, troll.pos);
+
+                        tx.run('MATCH (voit:Troll {id: $voitId}), (estVu:Troll {id: $estVuId}) ' +
+                            'MERGE (voit)-[r:VOIT]->(estVu) ' +
+                            ' ON CREATE SET r+= {quand: $date, posX: $posX, posY: $posY, posN: $posN, distance: $distance}' +
+                            ' ON MATCH  SET r+= {quand: $date, posX: $posX, posY: $posY, posN: $posN, distance: $distance}',
+                            {
+                                estVuId: estVuId,
+                                voitId: trollId,
+                                date: date,
+                                posX: troll.pos.x,
+                                posY: troll.pos.y,
+                                posN: troll.pos.n,
+                                distance: d.distance
+                            });
+                    }
                 }
             });
 
@@ -141,8 +144,8 @@ let pushViewToDb = function(trollId) {
 
 };
 
-pushViewToDb(104259);
-pushViewToDb(88222);
-pushViewToDb(50362);
+pushViewToDb('104259');
+pushViewToDb('88222');
+pushViewToDb('50362');
 
 

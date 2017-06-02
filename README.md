@@ -13,6 +13,14 @@ Prérequis :
 Pour tester, se rendre sur http://127.0.0.1:3000/?id=104259
 (fonctionne également avec 88222 et 50362)
 
+## Émulation du FTP MH
+
+    node public_mock.js
+
+Ça démarre un serveur HTTP sur le port 3002 qui renvoi le contenu du fichier public contenu dans le dossier "public"
+
+Pour tester, se rendre sur /home/thimel/WORK/perso/MountyView/trolls_to_db.js
+
 
 ## Conversion d'une vue issue de SP_Vue2.php en JSON
 
@@ -39,6 +47,12 @@ Installation du driver
 
     npm install neo4j-driver
 
+Import des informations publiques des trolls (à partir d'une copie du FTP de MH)
+
+    node trolls_to_db.js
+
+(Il faut potentiellement changer les credentials Neo4j dans ce fichier)
+
 Lancer ensuite l'import des vues via la commande 
 
     node vue_to_db.js
@@ -63,3 +77,8 @@ Les nivals 44+ à moins de 20 cav :
 Les monstres de la famille 'Insecte' de nival 40+-1 :
 
     MATCH p=()-[r:VOIT]->(m:Monstre) WHERE m.family = 'Insecte' AND m.nival >= 39 AND m.nival <=41 RETURN p LIMIT 50
+
+Les trolls à moins de 8 qui ne sont pas de la guilde du troll :
+
+    MATCH p=(t1:Troll)-[r:VOIT]->(t2:Troll) where r.distance < 8 and t1.guildeId <> t2.guildeId RETURN p LIMIT 25
+
