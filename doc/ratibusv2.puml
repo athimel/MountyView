@@ -1,0 +1,57 @@
+@startuml
+
+namespace Utilisateurs #DDDDDD {
+
+    class User {
+        #String login
+        #String password
+    }
+
+    class Troll {
+        #int id
+        #String name
+        #String password
+        #String race
+        #int nival
+        #int guilde
+        #String blason
+    }
+
+    class Update {
+        #Date date
+    }
+
+    class Grant {
+        #Date date
+    }
+
+    class Group {
+        #String name
+    }
+
+    User "0..1 owner" -- "0..* trolls" Troll
+
+    Troll "1 troll" -- "0..* updates" Update
+    Update --> "1 by" User
+
+    Grant --> "1 to" User
+    Grant --> "1 troll" Troll
+
+    Group --> "1 owner" User
+    Group --> "0..* trolls" Troll
+}
+
+enum Script {
+    Caract
+    Profil
+}
+
+
+
+skinparam class {
+	BackgroundColor<<Association>> PaleGreen
+	BorderColor<<Association>> SpringGreen
+}
+hide enum methods
+
+@enduml
