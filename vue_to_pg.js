@@ -36,8 +36,8 @@ let pushViewToDb = function(trollId) {
               user: 'postgres',
               host: 'localhost',
               database: 'postgres',
-              password: 'perso',
-              port: 9999,
+              password: 'toto',
+              port: 15432,
             });
 
             let parser = require('./monsters.js');
@@ -69,8 +69,13 @@ let pushViewToDb = function(trollId) {
                   if (err) {
                     return console.error('Error acquiring client', err.stack)
                   }
-                  let query = 'INSERT INTO monster (id, nom, pos_x, pos_y, pos_n, base_name, family, base_nival, template, template_bonus, age, age_bonus, nival) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) ON CONFLICT (id) DO UPDATE SET nom=EXCLUDED.nom, pos_x=EXCLUDED.pos_x, pos_y=EXCLUDED.pos_y, pos_n=EXCLUDED.pos_n, base_name=EXCLUDED.base_name, family=EXCLUDED.family, base_nival=EXCLUDED.base_nival, template=EXCLUDED.template, template_bonus=EXCLUDED.template_bonus, age=EXCLUDED.age, age_bonus=EXCLUDED.age_bonus, nival=EXCLUDED.nival;';
-                  let values = [enriched.id, enriched.name, enriched.pos.x, enriched.pos.y, enriched.pos.n, enriched.baseName, enriched.family, enriched.baseNival, enriched.template, enriched.templateBonus, enriched.age, enriched.ageBonus, enriched.nival];
+                  let query = 'INSERT INTO monster ' +
+                              '(id, nom, pos_x, pos_y, pos_n, base_name, family, base_nival, template, template_bonus, age, age_bonus, nival) ' +
+                              'values ' +
+                              '($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) ' +
+                              'ON CONFLICT (id) ' +
+                              'DO UPDATE SET nom=EXCLUDED.nom, pos_x=EXCLUDED.pos_x, pos_y=EXCLUDED.pos_y, pos_n=EXCLUDED.pos_n, base_name=EXCLUDED.base_name, family=EXCLUDED.family, base_nival=EXCLUDED.base_nival, template=EXCLUDED.template, template_bonus=EXCLUDED.template_bonus, age=EXCLUDED.age, age_bonus=EXCLUDED.age_bonus, nival=EXCLUDED.nival;';
+                  let values = [enriched.id, enriched.name, enriched.pos.x, enriched.pos.y, enriched.pos.n, enriched.baseName, enriched.family, "[" + enriched.baseNival + "," +enriched.baseNival + "]", enriched.template, enriched.templateBonus, enriched.age, enriched.ageBonus, "[" + enriched.nival + "," +enriched.nival + "]"];
                   console.log('INSERT INTO monster: ' + enriched.id + '/' + enriched.name);
                   client.query(query, values, (err, result) => {
                     release();
@@ -90,16 +95,16 @@ let pushViewToDb = function(trollId) {
 //    pos_n integer NOT NULL,
 //    distance integer NOT NULL
 
-                  let query2 = 'INSERT INTO voit (id, monstre, pos_x, pos_y, pos_n, distance) values ($1, $2, $3, $4, $5, $6) ON CONFLICT (id, monstre) DO UPDATE SET pos_x=EXCLUDED.pos_x, pos_y=EXCLUDED.pos_y, pos_n=EXCLUDED.pos_n, distance=EXCLUDED.distance;';
-                  let values2 = [1, enriched.id, enriched.pos.x, enriched.pos.y, enriched.pos.n, d.distance];
-                  console.log('INSERT INTO monster: ' + enriched.id + '/' + enriched.name);
-                  client.query(query2, values2, (err, result) => {
-                    release();
-                    if (err) {
-                      return console.error('Error executing query', err.stack);
-                    }
-                    // console.log(result.rows)
-                  });
+//                  let query2 = 'INSERT INTO voit (id, monstre, pos_x, pos_y, pos_n, distance) values ($1, $2, $3, $4, $5, $6) ON CONFLICT (id, monstre) DO UPDATE SET pos_x=EXCLUDED.pos_x, pos_y=EXCLUDED.pos_y, pos_n=EXCLUDED.pos_n, distance=EXCLUDED.distance;';
+//                  let values2 = [1, enriched.id, enriched.pos.x, enriched.pos.y, enriched.pos.n, d.distance];
+//                  console.log('INSERT INTO monster: ' + enriched.id + '/' + enriched.name);
+//                  client.query(query2, values2, (err, result) => {
+//                    release();
+//                    if (err) {
+//                      return console.error('Error executing query', err.stack);
+//                    }
+//                    // console.log(result.rows)
+//                  });
 
                 });
 
@@ -147,8 +152,8 @@ let pushViewToDb = function(trollId) {
 
 };
 
-//pushViewToDb('104259');
+pushViewToDb('104259');
 //pushViewToDb('88222');
-pushViewToDb('50362');
+//pushViewToDb('50362');
 
 

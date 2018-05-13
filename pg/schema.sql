@@ -1,5 +1,5 @@
 DROP TABLE voit;
-DROP TABLE monstre;
+DROP TABLE monster;
 DROP TABLE grants;
 DROP TABLE update;
 DROP TABLE troll;
@@ -72,12 +72,12 @@ CREATE TABLE monster (
     pos_n integer,
     base_name text,
     family text,
-    base_nival integer,
+    base_nival int4range,
     template text,
     template_bonus integer,
     age text,
     age_bonus integer,
-    nival integer
+    nival int4range
 );
 
 -- DROP TABLE voit;

@@ -46,8 +46,8 @@ let someRequest = http.request(rawUrl, function (response) {
           user: 'postgres',
           host: 'localhost',
           database: 'postgres',
-          password: 'perso',
-          port: 9999,
+          password: 'toto',
+          port: 15432,
         });
 
         // DROP TABLE guilde;
