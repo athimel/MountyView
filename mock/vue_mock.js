@@ -21,9 +21,6 @@ const server = http.createServer((req, res) => {
                 return console.error(err);
             }
             res.end(data);
-            // let parser = require('./vue_parser.js');
-            // let parseResult = parser.parseVue(data);
-            // console.log(`parseResult : `, parseResult);
         });
     } else {
         res.statusCode = 400;

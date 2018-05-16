@@ -23,8 +23,10 @@ const server = http.createServer((req, res) => {
 
             response.on('end', function () {
                 let parser = require('./vue_parser.js');
-                let parseResult = parser.parseVue(data);
-                res.end(JSON.stringify(parseResult));
+                let parseResultPromise = parser.parseVue(data);
+                parseResultPromise.then(function(parseResult) {
+                    res.end(JSON.stringify(parseResult));
+                });
             });
 
         });

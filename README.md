@@ -5,6 +5,6 @@ Prérequis :
 * Docker
 
 Le projet se compose de 2 modules :
-* [emul](/emul/README.md) : émulation du contenu MH
+* [mock](/mock/README.md) : émulation du contenu MH
 * [scripts](/scripts/README.md) : import des données en base
 
