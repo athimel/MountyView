@@ -67,9 +67,8 @@ let toMonster = function(line) {
 let toMonsterPromise = function(line) {
     return new Promise(function (resolve, reject) {
         let encoded = encodeURIComponent(line);
-        let rawUrl = `http://localhost:8080/mountyMonsters/v1/parse/fromSpVue2Row?row=${encoded}`;
-//        let rawUrl = `http://mounty-monsters.zoumbox.org/v1/parse/fromSpVue2Row?row=${encoded}`;
-//console.log(`Appel de l'URL ${rawUrl}`);
+//        let rawUrl = `http://localhost:8080/mountyMonsters/v1/monsters/fromSpVue2Row?row=${encoded}`;
+        let rawUrl = `http://mounty-fetch.zoumbox.org/v1/monsters/fromSpVue2Row?row=${encoded}`;
         let someRequest = http.request(rawUrl, function(response) {
             let data = '';
             response.on('data', function (chunk) {
@@ -88,12 +87,13 @@ let toMonsterPromise = function(line) {
 let toMonstersPromise = function(lines) {
     return new Promise(function (resolve, reject) {
 //        let rawUrl = `http://localhost:8080/mountyMonsters/v1/parse/fromSpVue2Rows?`;
-        let rawUrl = `http://mounty-monsters.zoumbox.org/v1/parse/fromSpVue2Rows?`;
+        let rawUrl = `http://mounty-fetch.zoumbox.org/v1/monsters/fromSpVue2Rows?`;
         for (let line of lines) {
             let encoded = encodeURIComponent(line);
             rawUrl += `&row=${encoded}`;
         }
 
+console.log(rawUrl);
         let someRequest = http.request(rawUrl, function(response) {
             let data = '';
             response.on('data', function (chunk) {
@@ -116,6 +116,31 @@ let toTroll = function(line) {
         pos: toPos(cells, 1)
     };
     return result;
+};
+
+let toTrollsPromise = function(lines) {
+    return new Promise(function (resolve, reject) {
+//        let rawUrl = `http://localhost:8080/mountyMonsters/v1/parse/fromSpVue2Rows?`;
+        let rawUrl = `http://mounty-fetch.zoumbox.org/v1/trolls/fromSpVue2Rows?`;
+        for (let line of lines) {
+            let encoded = encodeURIComponent(line);
+            rawUrl += `&row=${encoded}`;
+        }
+
+console.log(rawUrl);
+        let someRequest = http.request(rawUrl, function(response) {
+            let data = '';
+            response.on('data', function (chunk) {
+                data += chunk;
+            });
+
+            response.on('end', function () {
+                let jsd = JSON.parse(data);
+                resolve(jsd);
+            });
+        });
+        someRequest.end();
+    });
 };
 
 let toTresor = function(line) {
@@ -169,13 +194,6 @@ module.exports.parseVue = function (raw) {
         origine: toOrigin(splitted.origine[0])
     };
 
-
-//    let monstersPromises = [];
-//    for (let elem of splitted.monstres) {
-//        let promise = toMonsterPromise(elem);
-//        monstersPromises.push(promise);
-//    }
-
     Array.prototype.chunk = function ( n ) {
         if ( !this.length ) {
             return [];
@@ -191,8 +209,12 @@ module.exports.parseVue = function (raw) {
         monstersChunksPromises.push(promise);
     }
 
-    for (let elem of splitted.trolls) {
-        result.trolls.push(toTroll(elem));
+    let trollsChunksPromises = [];
+    let trollsChunks = splitted.trolls.chunk(130); // Lines are really smaller than monsters, we can send more at a time
+    console.log(splitted.trolls.length + " trolls -> " + trollsChunks.length + " chunks");
+    for (let chunk of trollsChunks) {
+        let promise = toTrollsPromise(chunk);
+        trollsChunksPromises.push(promise);
     }
 
     for (let elem of splitted.tresors) {
@@ -207,13 +229,6 @@ module.exports.parseVue = function (raw) {
         result.champignons.push(toChampignon(elem));
     }
 
-//    return new Promise(function (resolve, reject) {
-//        Promise.all(monstersPromises).then(function(values) {
-//            result.monstres.push(values);
-//            resolve(result);
-//        });
-//    });
-
     return new Promise(function (resolve, reject) {
         Promise.all(monstersChunksPromises).then(function(chunks) {
             for (let chunk of chunks) {
@@ -222,7 +237,17 @@ module.exports.parseVue = function (raw) {
                 }
             }
             console.log(chunks.length + " chunks received containing " + result.monstres.length + " monsters ");
-            resolve(result);
+
+            Promise.all(trollsChunksPromises).then(function(chunks) {
+                for (let chunk of chunks) {
+                    for (let t of chunk) {
+                        result.trolls.push(t);
+                    }
+                }
+                console.log(chunks.length + " chunks received containing " + result.trolls.length + " trolls ");
+                resolve(result);
+            });
+
         });
     });
 };

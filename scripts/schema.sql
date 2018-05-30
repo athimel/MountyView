@@ -11,6 +11,7 @@ CREATE TABLE guilde (
     id integer PRIMARY KEY,
     nom text NOT NULL
 );
+insert into guilde (id, nom) values ( 1, '');
 
 --DROP TABLE users;
 CREATE TABLE users (
@@ -18,7 +19,7 @@ CREATE TABLE users (
     password text NOT NULL
 );
 
--- insert into users (login, password) values ( 'DevelZimZoum', 'azerty');
+insert into users (login, password) values ( 'DevelZimZoum', 'azerty');
 -- insert into users (login, password) values ( 'Wawa', 'azerty');
 
 --DROP TABLE troll;

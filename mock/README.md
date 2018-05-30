@@ -17,13 +17,3 @@ Pour tester, se rendre sur http://127.0.0.1:3000/?id=104259
 
 Pour tester, se rendre sur http://127.0.0.1:3002/?file=Public_Guildes.txt
 
-
-## Conversion d'une vue issue de SP_Vue2.php en JSON
-
-    node vue_json.js
-
-Ça démarre un serveur HTTP sur le port 3001 qui va lire les informations sur le port 3000 (données brutes) et qui renvoi le contenu des vues au format JSON
-
-Pour tester, se rendre sur http://127.0.0.1:3001/?id=104259
-(fonctionne également avec 88222 et 50362)
-

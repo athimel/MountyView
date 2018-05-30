@@ -10,14 +10,14 @@ Démarrage de la base PostgreSQL dans Docker :
         -e POSTGRES_PASSWORD=toto \
         -d \
         -p 15432:5432 \
-        postgres:10.3
+        postgres:latest
 
 Pour créer le schéma il faut déjà se connecter en psql :
 
     docker run -it \
         --rm \
         --link mounty_view:postgres \
-        postgres:10.3 \
+        postgres:latest \
         psql -h postgres -U postgres
 
 Puis importer le contenu du fichier [schema.sql](/scripts/schema.sql)
@@ -37,6 +37,16 @@ Puis importer le contenu du fichier [schema.sql](/scripts/schema.sql)
     node trolls_to_pg.js
 
 (Il faut potentiellement changer les credentials PostgreSQL dans ce fichier)
+
+## Conversion d'une vue issue de SP_Vue2.php en JSON
+
+    node vue_json.js
+
+Ça démarre un serveur HTTP sur le port 3001 qui va lire les informations sur le port 3000 (données brutes) et qui renvoi le contenu des vues au format JSON
+
+Pour tester, se rendre sur http://127.0.0.1:3001/?id=104259
+(fonctionne également avec 88222 et 50362)
+
 
 ## Lancer ensuite l'import des vues via la commande 
 
