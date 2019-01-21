@@ -11,58 +11,49 @@ CREATE TABLE guilde (
     id integer PRIMARY KEY,
     nom text NOT NULL
 );
-insert into guilde (id, nom) values ( 1, '');
 
---DROP TABLE users;
-CREATE TABLE users (
-    login text PRIMARY KEY,
-    password text NOT NULL
-);
-
-insert into users (login, password) values ( 'DevelZimZoum', 'azerty');
--- insert into users (login, password) values ( 'Wawa', 'azerty');
+CREATE TYPE races AS ENUM('Kastar', 'Durakuir', 'Skrim', 'Tomawak', 'Darkling', 'Nkrwapu');
 
 --DROP TABLE troll;
 CREATE TABLE troll (
     id integer PRIMARY KEY,
     nom text NOT NULL,
-    race text  NOT NULL,
+    race races NOT NULL,
     nival integer NOT NULL,
     password text,
-    guilde integer REFERENCES guilde(id) NOT NULL,
-    blason text,
-    owner text REFERENCES users(login),
-    CONSTRAINT races CHECK (race = 'Kastar' OR race = 'Durakuir' OR race = 'Skrim' OR race = 'Tomawak' OR race = 'Darkling' OR race = 'Nkrwapu')
+    guilde integer REFERENCES guilde(id),
+    blason text
 );
 
--- update troll set owner='DevelZimZoum' where id=104259;
--- update troll set owner='Wawa' where id=90982;
+
+CREATE TYPE scripts AS ENUM('SP_Vue2', 'SP_Caract', 'SP_Profil2');
 
 --DROP TABLE update;
 CREATE TABLE update (
     id BIGSERIAL PRIMARY KEY,
-    script text NOT NULL,
+    script scripts NOT NULL,
     troll integer REFERENCES troll(id) NOT NULL,
-    date timestamp NOT NULL,
-    by text REFERENCES users(login) NOT NULL,
-    CONSTRAINT scripts CHECK (script = 'SP_Vue2' OR script = 'SP_Caract' OR script = 'SP_Profil2')
+    date timestamp NOT NULL
+--    by text REFERENCES users(login) NOT NULL
 );
 
 -- insert into update (troll, script, date, by) values ( 104259, 'SP_Caract', now(), 'DevelZimZoum');
 
 -- DROP TABLE grants;
-CREATE TABLE grants (
-    id BIGSERIAL PRIMARY KEY,
-    date timestamp NOT NULL,
-    granted text REFERENCES users(login) NOT NULL,
-    troll integer REFERENCES troll(id) NOT NULL,
-    can_update boolean DEFAULT true NOT NULL,
-    CONSTRAINT grant_unique UNIQUE(granted, troll)
-);
+--CREATE TABLE grants (
+--    id BIGSERIAL PRIMARY KEY,
+--    date timestamp NOT NULL,
+--    granted text REFERENCES users(login) NOT NULL,
+--    troll integer REFERENCES troll(id) NOT NULL,
+--    can_update boolean DEFAULT true NOT NULL,
+--    CONSTRAINT grant_unique UNIQUE(granted, troll)
+--);
 
 -- insert into grants (date, granted, troll) values (now(), 'Wawa', 104259);
 -- insert into grants (date, granted, troll) values (now(), 'DevelZimZoum', 50362),(now(), 'DevelZimZoum', 86132),(now(), 'DevelZimZoum', 86133),(now(), 'DevelZimZoum', 88222),(now(), 'DevelZimZoum', 90568),(now(), 'DevelZimZoum', 95636),(now(), 'DevelZimZoum', 100160);
 
+
+CREATE TYPE families AS ENUM('Animal', 'Démon', 'Humanoïde', 'Insecte', 'Monstre', 'Mort-Vivant');
 
 -- DROP TABLE monster;
 CREATE TABLE monster (
@@ -72,7 +63,7 @@ CREATE TABLE monster (
     pos_y integer,
     pos_n integer,
     base_name text,
-    family text,
+    family families,
     base_nival int4range,
     template text,
     template_bonus integer,

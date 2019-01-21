@@ -17,6 +17,12 @@ let computeDistance = function(pos1, pos2) {
 
 };
 
+let ageToRange = function(source) {
+    let result = source.replace(/[.][.]/, ',');
+    return result;
+
+};
+
 let pushViewToDb = function(trollId) {
 
     let rawUrl = `http://127.0.0.1:3001/?id=${trollId}`;
@@ -47,8 +53,10 @@ let pushViewToDb = function(trollId) {
               if (err) {
                 return console.error('Error acquiring client', err.stack)
               }
-              let query0 = 'insert into update (troll, script, date, by) values ($1, $2, now(), $3);';
-              let values0 = [trollId, 'SP_Vue2', 'DevelZimZoum'];
+//              let query0 = 'insert into update (troll, script, date, by) values ($1, $2, now(), $3);';
+              let query0 = 'insert into update (troll, script, date) values ($1, $2, now());';
+//              let values0 = [trollId, 'SP_Vue2', 'DevelZimZoum'];
+              let values0 = [trollId, 'SP_Vue2'];
               console.log('INSERT INTO update: ' + trollId + '/SP_Vue2');
               client.query(query0, values0, (err, result) => {
                 release();
@@ -71,13 +79,29 @@ let pushViewToDb = function(trollId) {
                   if (err) {
                     return console.error('Error acquiring client', err.stack)
                   }
+//                  console.log(enriched);
                   let query = 'INSERT INTO monster ' +
                               '(id, nom, pos_x, pos_y, pos_n, base_name, family, base_nival, template, template_bonus, age, age_bonus, nival) ' +
                               'values ' +
                               '($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) ' +
                               'ON CONFLICT (id) ' +
                               'DO UPDATE SET nom=EXCLUDED.nom, pos_x=EXCLUDED.pos_x, pos_y=EXCLUDED.pos_y, pos_n=EXCLUDED.pos_n, base_name=EXCLUDED.base_name, family=EXCLUDED.family, base_nival=EXCLUDED.base_nival, template=EXCLUDED.template, template_bonus=EXCLUDED.template_bonus, age=EXCLUDED.age, age_bonus=EXCLUDED.age_bonus, nival=EXCLUDED.nival;';
-                  let values = [enriched.id, enriched.fullName, enriched.position.x, enriched.position.y, enriched.position.n, enriched.baseName, enriched.family, "[" + enriched.baseNival.lowerBound.endpoint + "," +enriched.baseNival.upperBound.endpoint + "]", enriched.template, enriched.templateBonus, enriched.age, enriched.ageBonus, "[" + enriched.nival.lowerBound.endpoint + "," +enriched.nival.upperBound.endpoint + "]"];
+                  let values = [enriched.id,
+                                enriched.fullName,
+                                enriched.position.x,
+                                enriched.position.y,
+                                enriched.position.n,
+                                enriched.baseName,
+                                enriched.family,
+//                                "[" + enriched.baseNival.lowerBound.endpoint + "," +enriched.baseNival.upperBound.endpoint + "]",
+                                ageToRange(enriched.baseNival),
+                                enriched.template,
+                                enriched.templateBonus,
+                                enriched.age,
+                                enriched.ageBonus,
+//                                "[" + enriched.nival.lowerBound.endpoint + "," +enriched.nival.upperBound.endpoint + "]"
+                                ageToRange(enriched.nival)
+                               ];
                   console.log('INSERT INTO monster: ' + enriched.id + '/' + enriched.fullName);
                   client.query(query, values, (err, result) => {
                     release();
